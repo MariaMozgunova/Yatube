@@ -1,0 +1,53 @@
+<!-- Форма добавления комментария -->
+{% load user_filters %}
+
+{% if user.is_authenticated %}
+<div class="card my-4">
+    <form action="{% url 'add_comment' post.author.username post.id %}" method="post">
+        {% csrf_token %}
+        <h5 class="card-header">Добавить комментарий:</h5>
+        <div class="card-body">
+            <form>
+                {% for field in form %}
+                <div class="form-group row">
+                    <label for="{{ field.id_for_label }}"
+                        class="col-md-4 col-form-label text-md-right">{{ field.label }}</label>
+                    <div class="col-md-6">
+
+                        {{ field|addclass:"form-control" }}
+
+                        {% if field.help_text %}
+                        <small id="{{ field.id_for_label }}-help"
+                            class="form-text text-muted">{{ field.help_text|safe }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col-md-6 offset-md-4">
+                    <button type="submit" class="btn btn-primary">
+                        Отправить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+<!-- Комментарии -->
+{% for item in items %}
+<div class="media mb-4">
+    <div class="media-body">
+        <h6><strong class="mt-0">
+            <a href="{% url 'profile' item.author.username %}"
+                name="comment_{{ item.id }}">@{{ item.author.username }}</a>
+        </strong></h6>
+        {{ item.text }}
+    </div>
+</div>
+
+{% if items.has_other_pages %}
+{% include "includes/paginator.html" with paginator=items.paginator%}
+{% endif %}
+
+{% endfor %}

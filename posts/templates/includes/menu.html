@@ -1,0 +1,12 @@
+{% if user.is_authenticated %} 
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link {% if index_view %}active{% endif %}" href="/">Все обновления</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if follow %}active{% endif %}" href="/follow">Мои подписки</a>
+        </li>
+    </ul>
+</div>
+{% endif %}

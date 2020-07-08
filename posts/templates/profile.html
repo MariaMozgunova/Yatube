@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{author.username}}{% endblock %}
+{% block content %}
+<main role="main" class="container">
+    <div class="row">
+        {% include 'includes/author_card.html' %}
+        <div class="col-md-9">
+
+            <!-- Начало блока с отдельным постом -->
+            {% for post in page %}
+            {% include 'includes/post_item.html' with username=author.username %}
+            {% endfor %}
+            <!-- Конец блока с отдельным постом -->
+
+            <!-- Остальные посты -->
+
+            {% if page.has_other_pages %}
+            {% include "paginator.html" with items=page %}
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
